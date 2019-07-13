@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <ctype.h>
 
-
 #include "Prototypes.h"
 #include "StructureDefinition.h"
 
