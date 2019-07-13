@@ -3,7 +3,7 @@
 #include <ctype.h>
 
 
-#include "Protoypes.h"
+#include "Prototypes.h"
 #include "StructureDefinition.h"
 
 int main(){
