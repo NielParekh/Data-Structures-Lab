@@ -20,6 +20,7 @@ Student getStudent(){
 	printf("Enter the marks   : ");
 	for(int i = 0 ; i < 3 ; i++)
 		scanf("%d",&s.marks[i]);
+	return s;
 }
 
 void putStudent(const Student s){
