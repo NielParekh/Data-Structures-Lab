@@ -14,7 +14,7 @@ int main(){
 
 
 	while(opt != 7){
-		system("clear")
+		system("clear");
 		printf("1 - Add First\n2 - Add last\n3 - Add after Record\n4 - Display List\n");
 		printf("5 - Display in alphabetical order\n6 - Delete Record\n7 - Stop\n");
 		printf("Enter your choice: ");
@@ -26,7 +26,7 @@ int main(){
 			case 2: addLast(head,tail,getStudent());    break;
 			case 3: printf("Enter the name to search: ");
 					scanf("%[^\n]",name);
-					addName(findPrevious(head,tail,name),getStudent())
+					addName(findRecord(head,tail,name),getStudent());
 					break;
 
 			case 4: putList(head,tail);		     		break;
@@ -34,7 +34,7 @@ int main(){
 
 			case 6: printf("Enter the name to search: ");
 					scanf("%[^\n]",name);
-					deleteRecord(findPrevious(head,tail,name));
+					deleteRecord(findRecord(head,tail,name));
 					break;
 			case 7: 									break;
 			default: printf("Invalid input!\n");        break; 
