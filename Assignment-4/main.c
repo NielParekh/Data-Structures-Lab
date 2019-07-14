@@ -34,6 +34,7 @@ int main(){
 
 			case 6: printf("Enter the name to search: ");
 					scanf("%[^\n]",name);
+					getchar();
 					deleteRecord(findRecord(head,tail,name));
 					break;
 			case 7: 									break;
