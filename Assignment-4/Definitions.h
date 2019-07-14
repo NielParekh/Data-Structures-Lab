@@ -20,6 +20,7 @@ Student getStudent(){
 	printf("Enter the marks   : ");
 	for(int i = 0 ; i < 3 ; i++)
 		scanf("%d",&s.marks[i]);
+	getchar();
 	return s;
 }
 
@@ -28,7 +29,7 @@ void putStudent(const Student s){
 	printf("Name      : %s\n",s.name);
 	printf("Marks     : ");
 	for(int i = 0 ; i < 3 ; i++)
-		printf("%d",s.marks[i]);
+		printf("%-3d ",s.marks[i]);
 	printf("\n");
 }
 
