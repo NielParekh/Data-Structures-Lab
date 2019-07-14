@@ -27,7 +27,7 @@ void putStudent(const Student s){
 	printf("Name      : %s\n",s.name);
 	printf("Marks     : ");
 	for(int i = 0 ; i < 3 ; i++)
-		printf("%d",s.marks[i])
+		printf("%d",s.marks[i]);
 	printf("\n");
 }
 
@@ -40,8 +40,8 @@ Node*  createEmptyList(){
 		 * tail = (Node*)malloc(sizeof(Node));
 
 	head -> prev = 0;
-	head -> next = prev;
-	tail -> prev = next;
+	head -> next = tail;
+	tail -> prev = head;
 	tail -> next = 0;
 	return head;
 }
@@ -52,8 +52,8 @@ void addFirst(Node * head,Node * tail,const Student S){
 	temp -> s = S;
 	temp -> next = head ->next;
 	temp -> prev = head;
-	head -> next -> prev = tmp;
-	head -> next  = tmp;
+	head -> next -> prev = temp;
+	head -> next  = temp;
 }
 
 void addLast(Node * head , Node * tail,const Student S){
@@ -71,7 +71,7 @@ Node* findRecord(Node * head,Node * tail,char * const str){
 
 	Node * temp = head -> next;
 	while(temp -> next){
-		if( strcmp(temp->name,str) == 0 )
+		if( strcmp(temp->s.name,str) == 0 )
 			return temp;
 		temp = temp -> next;
 	}
@@ -108,3 +108,4 @@ void deleteRecord(Node * pos){
 	pos -> prev -> next = pos -> next;
 	pos -> next -> prev = pos -> prev;
 }
+
