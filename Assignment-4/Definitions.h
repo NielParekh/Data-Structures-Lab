@@ -72,12 +72,13 @@ Node* findRecord(Node * head,Node * tail,char * const str){
 		return 0;
 
 	Node * temp = head -> next;
-	while(temp -> next){
+	while(temp != tail){
 		if( strcmp(temp->s.name,str) == 0 )
 			return temp;
 		temp = temp -> next;
 	}
-	return 0;	
+	return 0;
+
 }
 
 void addName(Node * pos,const Student S){
@@ -107,6 +108,10 @@ void putListSorted(Node * head,Node * tail){
 }
 
 void deleteRecord(Node * pos){
+	if(!pos){
+		printf("No Record Found!\n");
+		return;
+	}
 	pos -> prev -> next = pos -> next;
 	pos -> next -> prev = pos -> prev;
 }
