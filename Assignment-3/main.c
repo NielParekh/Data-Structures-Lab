@@ -1,47 +1,58 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <ctype.h>
 
 #include "Prototypes.h"
 #include "StructureDefinition.h"
 
 int main(){
-	Node * p1 = createEmptyList(),
-		 * p2 = createEmptyList(),
+	Node * p1 ,
+		 * p2 ,
 		 * sum,
 		 * prod;
 
-	int e,c,stop = 0;
-
-	printf("Enter the first polynomial\n");
+	int e,c,n,stop = 0,opt;
 	while(!stop){
-		printf("Enter the coefficient & exponent: ");
-		scanf("%d %d",&c,&e);
-		insert(p1,c,e);
-		printf("Do you want to stop? 1/0: ");
-		scanf("%d",&stop);
-	}
+		system("clear");
 
-	printf("\nEnter the second polynomial\n");
-	
-	stop = 0;
-	while(!stop){
-		printf("Enter the coefficient & exponent: ");
-		scanf("%d %d",&c,&e);
-		insert(p2,c,e);
-		printf("Do you want to stop? 1/0: ");
-		scanf("%d",&stop);
+		printf("1 - Add Polynomials\n2 - Multiply\n3 - Exit\nEnter your choice: ");
+		scanf("%d",&opt);
+		
+		if(opt == 3)
+			break;
+		p1 = createEmptyList();
+		p2 = createEmptyList();
+		printf("Enter the size of first polynomial: ");
+		scanf("%d",&n);
+		for(int i = 0 ; i < n ; i++){
+			printf("Enter the coefficient & exponent: ");
+			scanf("%d %d",&c,&e);
+			insert(p1,c,e);
+		}
+
+		printf("\nEnter the size second polynomial: ");
+		scanf("%d",&n);
+		for(int i = 0 ; i < n ; i++){
+			printf("Enter the coefficient & exponent: ");
+			scanf("%d %d",&c,&e);
+			insert(p2,c,e);
+		}
+		getchar();
+		switch(opt){
+			case 1: sum = addPolynomials(p1,p2);
+					printf("\nThe sum is: ");
+					putList(sum);
+					deleteList(sum);
+					break;
+			case 2: printf("\nThe product is: ");
+					prod = product(p1,p2);
+					putList(prod);
+					deleteList(prod);
+					break;
+			default:printf("Invalid Input!\n");
+		}
+		printf("Press any key to continue......");
+		getchar();
+		deleteList(p1);
+		deleteList(p2);
 	}
-	
-	printf("\n");
-	printf("The first polynomial is: ");
-	putList(p1);
-	printf("The second polynomial is : ");
-	putList(p2);
-	sum = addPolynomials(p1,p2);
-	printf("\nThe sum is: ");
-	putList(sum);
-	printf("\nThe product is: ");
-	prod = product(p1,p2);
-	putList(prod);
 }
