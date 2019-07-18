@@ -47,6 +47,9 @@ void insertMiddle(Node * prev,int c, int e){
 }
 
 void deleteList(Node * head){
+	if(isEmpty(head))
+		return;
+
 	Node * tmp;
 	while(head -> next!= 0){
 		tmp = head;
