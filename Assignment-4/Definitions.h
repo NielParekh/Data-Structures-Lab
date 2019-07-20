@@ -17,7 +17,7 @@ Student getStudent(){
 	getchar();
 	printf("Enter the name    : ");
 	scanf("%[^\n]",s.name);
-	printf("Enter the marks   : ");
+	printf("Enter the marks[3]: ");
 	for(int i = 0 ; i < 3 ; i++)
 		scanf("%d",&s.marks[i]);
 	getchar();
@@ -103,8 +103,27 @@ void putList(Node * head,Node * tail){
 	}
 }
 
-void putListSorted(Node * head,Node * tail){
+Node * sortList(Node * head,Node * tail,Node ** tail_result){
+	Node * h = createEmptyList(),
+		 * t = h -> next,
+		 * p1 = head -> next,
+		 * p2 = head -> next,
+		 * min = 0;
 
+	while(p1 != tail){
+		p2 = p1 -> next;
+		min = p1;
+		while(p2 != tail){
+			if(strcmp(p2->s.name,min->s.name) > 0)
+				min = p2;
+			p2 = p2 -> next;
+		}
+		addFirst(h,t,min->s);
+		deleteRecord(min);
+		p1 = head -> next;
+	}
+	*tail_result = t;
+	return h;
 }
 
 void deleteRecord(Node * pos){
