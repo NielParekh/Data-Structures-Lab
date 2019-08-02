@@ -84,7 +84,45 @@ int main(){
 		push(&postfix,tmp.dt,(void*)tmp.ptr);
 	}
 
-	display(postfix);
+	Stack convert = createEmptyStack(),
+		  eval    = createEmptyStack();
+	Data tmp;
 
+	
+	while(!isEmpty(postfix)){
+		tmp = pop(&postfix);
+		push(&convert,tmp.dt,(void*)tmp.ptr);
+	}
+
+	//Display Postfix Stack
+	displayStack(convert);
+	printf("\n");
+	
+	
+
+	while(!isEmpty(convert)){
+		tmp = pop(&convert);
+		
+		if(tmp.dt == Operand)
+			push(&eval,tmp.dt,(void*)tmp.ptr);
+		else{
+			Data t1 = pop(&eval),
+				 t2 = pop(&eval);
+			int v2 = * ( (int*)t1.ptr);
+			int v1 = * ( (int*)t2.ptr);
+			int res;
+			char c = (char)(*(char*)tmp.ptr);
+			switch(c){
+				case '+': res = v1 + v2; break;
+				case '-': res = v1 - v2; break;
+				case '*': res = v1 * v2; break;
+				case '/': res = v1 / v2; break;
+			}
+			push(&eval,Operand,(void*)&res);
+		}
+	}
+
+	printf("Final value : ");
+	displayStack(eval);
+	printf("\n");
 }
-

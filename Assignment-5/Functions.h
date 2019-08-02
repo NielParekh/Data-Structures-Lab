@@ -1,4 +1,3 @@
-
 int isOperator(const char c){
 	if( c == '+' || c == '-' || c == '*' || c == '/' )
 		return 1;
