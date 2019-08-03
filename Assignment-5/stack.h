@@ -73,6 +73,8 @@ void displayStack(Stack top){
 }
 
 void display(Stack top){
+	if(isEmpty(top))
+		return;
 	if(top -> next)
 		display(top -> next);
 	if(top -> d.dt == Operand)

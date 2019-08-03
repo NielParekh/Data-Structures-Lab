@@ -24,9 +24,9 @@ int main(){
 			//Converting character to integer
 			val = infix[i] - '0';
 
-			for(int j = i + 1 ; isdigit(infix[j]) ; j++){
+			for(int j = i + 1 ; isdigit(infix[j]) && infix[j] ; j++){
 				val = val * 10 + (infix[j] - '0');
-				i = j + 1;
+				i = j;
 			}
 			push(&postfix,Operand,(void*)&val);
 		}
