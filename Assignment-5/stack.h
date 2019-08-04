@@ -27,8 +27,8 @@ void push(Stack * top,DataType dt,void * ptr){
 	tmp -> d.dt = dt;
 
 	if(dt == Operand){
-		int * x = (int*)malloc(sizeof(int));
-		*x = *((int*)ptr);
+		float * x = (float*)malloc(sizeof(int));
+		*x = *((float*)ptr);
 		tmp -> d.ptr = (void*)x;
 	}
 	else{
@@ -63,7 +63,7 @@ void displayStack(Stack top){
 	}
 	while(tmp){
 		if(tmp -> d.dt == Operand)
-			printf("%d ",*((int*)tmp -> d.ptr) );
+			printf("%.3f ",*((float*)tmp -> d.ptr) );
 		else
 			printf("%c ",*((char*)tmp -> d.ptr) );
 		tmp = tmp -> next;
@@ -78,7 +78,7 @@ void display(Stack top){
 	if(top -> next)
 		display(top -> next);
 	if(top -> d.dt == Operand)
-		printf("%d ",*((int*)top -> d.ptr) );
+		printf("%.3f ",*((float*)top -> d.ptr) );
 	else
 		printf("%c ",*((char*)top -> d.ptr) );
 

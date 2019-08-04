@@ -7,12 +7,12 @@
 
 int main(){
 	DataType dt;
-	char infix[20] = {0};
+	char infix[50] = {0};
 
 	Stack opStack = createEmptyStack(),
 		  postfix = createEmptyStack();
 
-	int val;
+	float val;
 
 	printf("Enter the infix expression: ");
 	scanf("%[^\n]",infix);
@@ -95,6 +95,7 @@ int main(){
 	}
 
 	//Display Postfix Stack
+	printf("Postfix Value: ");
 	displayStack(convert);
 	printf("\n");
 	
@@ -108,9 +109,9 @@ int main(){
 		else{
 			Data t1 = pop(&eval),
 				 t2 = pop(&eval);
-			int v2 = * ( (int*)t1.ptr);
-			int v1 = * ( (int*)t2.ptr);
-			int res;
+			float v2 = * ( (float*)t1.ptr),
+				  v1 = * ( (float*)t2.ptr),
+				  res;
 			char c = (char)(*(char*)tmp.ptr);
 			switch(c){
 				case '+': res = v1 + v2; break;
