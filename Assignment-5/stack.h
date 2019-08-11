@@ -1,11 +1,4 @@
-typedef enum {
-	Operand,Operator
-}DataType;
-
-typedef struct{
-	DataType dt;
-	void * ptr;
-}Data;
+typedef float Data;
 
 typedef struct Node{
 	Data d;
@@ -22,21 +15,9 @@ int isEmpty(Stack top){
 	return top == 0;
 }
 
-void push(Stack * top,DataType dt,void * ptr){
+void push(Stack * top,Data d){
 	Node * tmp = (Node*)malloc(sizeof(Node));
-	tmp -> d.dt = dt;
-
-	if(dt == Operand){
-		float * x = (float*)malloc(sizeof(int));
-		*x = *((float*)ptr);
-		tmp -> d.ptr = (void*)x;
-	}
-	else{
-		char * c = (char*)malloc(sizeof(char));
-		*c = *((char*)ptr);
-		tmp -> d.ptr = (void*)c;
-	}
-	
+	tmp -> d = d;
 	tmp -> next = 0;
 	if(!isEmpty(*top))
 		tmp -> next = (*top);
@@ -55,6 +36,7 @@ Data peek(Stack top){
 	return top -> d; 
 }
 
+
 void displayStack(Stack top){
 	Node * tmp = top;
 	if(isEmpty(top)){
@@ -62,24 +44,8 @@ void displayStack(Stack top){
 		return;
 	}
 	while(tmp){
-		if(tmp -> d.dt == Operand)
-			printf("%.3f ",*((float*)tmp -> d.ptr) );
-		else
-			printf("%c ",*((char*)tmp -> d.ptr) );
+		printf("%c ",(char)(tmp -> d) );
 		tmp = tmp -> next;
-
 	}
 	printf("\n");
-}
-
-void display(Stack top){
-	if(isEmpty(top))
-		return;
-	if(top -> next)
-		display(top -> next);
-	if(top -> d.dt == Operand)
-		printf("%.3f ",*((float*)top -> d.ptr) );
-	else
-		printf("%c ",*((char*)top -> d.ptr) );
-
 }

@@ -1,54 +1,54 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include <string.h>
 
 #include "stack.h"
 #include "Functions.h"
 
 int main(){
-	DataType dt;
-	char infix[50] = {0};
+	char infix[50] = {0},
+		 postfix[50] = {0},
+		 buffer[20];
 
-	Stack opStack = createEmptyStack(),
-		  postfix = createEmptyStack();
+	Stack opStack = createEmptyStack();
 
-	float val;
+	int val;
 
 	printf("Enter the infix expression: ");
 	scanf("%[^\n]",infix);
 
-	for(int i = 0 ; infix[i] ; i++){
+	for(int i = 0 ; infix[i]; i++){
 
 		if(isdigit( infix[i]) ){
-			
-			//Converting character to integer
-			val = infix[i] - '0';
-
+			postfix[strlen(postfix)] = infix[i];
 			for(int j = i + 1 ; isdigit(infix[j]) && infix[j] ; j++){
-				val = val * 10 + (infix[j] - '0');
 				i = j;
+				postfix[strlen(postfix)] = infix[j];
 			}
-			push(&postfix,Operand,(void*)&val);
+			postfix[strlen(postfix)] = ' ';
 		}
 		
 		else if(isOpenBracket(infix[i])) 
-			push(&opStack,Operator,(void*)&infix[i]);
+			push(&opStack,(float)infix[i] );
 		
 		else if(isOperator(infix[i])){
 			if(isEmpty(opStack))
-				push(&opStack,Operator,(void*)&infix[i]);
+				push(&opStack,(float)infix[i] );
 			else{
 				Data tmp = peek(opStack);
-				while(getPriority( *((char*)tmp.ptr) ) >= getPriority(infix[i]) ){
-					push(&postfix,Operator,(void*)tmp.ptr);
+				while(getPriority( (char)tmp ) >= getPriority(infix[i]) ){
+					postfix[strlen(postfix)] = (char)tmp;
+					postfix[strlen(postfix)] = ' ';
 					pop(&opStack);
 					if(!isEmpty(opStack))
 						tmp = peek(opStack);
 					else 
 						break;
 				}
-				push(&opStack,Operator,(void*)&infix[i]);
-			}	
+
+				push(&opStack,(float)infix[i] );
+			}
 		}
 		
 		else if(isClosingBracket(infix[i]) ){
@@ -56,10 +56,11 @@ int main(){
 				printf("Error in expression: Unbalanced brackets!\n");
 				return 1;
 			}
-
 			Data tmp = peek(opStack);
-			while(!isOpenBracket( *((char*)tmp.ptr) ) ){
-				push(&postfix,Operator,(void*)tmp.ptr);
+			while(!isOpenBracket( (char)tmp ) ){
+				postfix[strlen(postfix)] = (char)tmp;
+				postfix[strlen(postfix)] = ' ';
+					
 				pop(&opStack);
 				
 				if(isEmpty(opStack)){
@@ -70,60 +71,56 @@ int main(){
 				tmp = peek(opStack);
 			}
 			pop(&opStack);
-
 		}
 		else continue; //It is a whitespace character			
 	}
-	
+
+	//If the Operator Stack isn't empty, append all operators to postfix
 	while(!isEmpty(opStack)){
 		Data tmp = pop(&opStack);
-		if(isOpenBracket( *((char*)tmp.ptr) ) ){
+		if(isOpenBracket( (char)tmp) ){
 			printf("Error in expression: Unbalanced brackets!\n");
 			return 1;
 		}
-		push(&postfix,tmp.dt,(void*)tmp.ptr);
+		postfix[strlen(postfix)] = (char)tmp;
+		postfix[strlen(postfix)] = ' ';		
 	}
 
-	Stack convert = createEmptyStack(),
-		  eval    = createEmptyStack();
+
+	printf("Postfix Expression: %s\n",postfix);
+		
+	
+	Stack eval = createEmptyStack();
 	Data tmp;
 
-	
-	while(!isEmpty(postfix)){
-		tmp = pop(&postfix);
-		push(&convert,tmp.dt,(void*)tmp.ptr);
-	}
+	for(int i = 0  ; postfix[i] ; i++){
+		tmp = 0;
+		if(isdigit(postfix[i])){
+			tmp = (float)(postfix[i] - '0');
+			for(int j = i + 1 ; isdigit(postfix[j]) && postfix[j];j++){
+				tmp = (tmp * 10) + (float)(postfix[j] - '0');
+				i = j; 
+			}
+			push(&eval,tmp);
+		}
+		else if(isOperator( postfix[i]) ){
+			Data v2 = pop(&eval),
+				 v1 = pop(&eval);
+			float res;
 
-	//Display Postfix Stack
-	printf("Postfix Value: ");
-	displayStack(convert);
-	printf("\n");
-	
-	
-
-	while(!isEmpty(convert)){
-		tmp = pop(&convert);
-		
-		if(tmp.dt == Operand)
-			push(&eval,tmp.dt,(void*)tmp.ptr);
-		else{
-			Data t1 = pop(&eval),
-				 t2 = pop(&eval);
-			float v2 = * ( (float*)t1.ptr),
-				  v1 = * ( (float*)t2.ptr),
-				  res;
-			char c = (char)(*(char*)tmp.ptr);
+			char c = postfix[i];
 			switch(c){
 				case '+': res = v1 + v2; break;
 				case '-': res = v1 - v2; break;
 				case '*': res = v1 * v2; break;
 				case '/': res = v1 / v2; break;
 			}
-			push(&eval,Operand,(void*)&res);
+			push(&eval,res);
 		}
+		else continue;//Whitespace Character
 	}
 
-	printf("Final value : ");
-	displayStack(eval);
+	printf("Final value : %.3f\n",eval->d);
+	
 	printf("\n");
 }
