@@ -1,0 +1,37 @@
+SSN College of Engineering, Kalavakkam
+Department of Computer Science and Engineering
+III Semester - CSE 'A ',’B’ & ‘C’
+UCS 1312 Data Structures Lab
+Academic Year: 2019-2020
+
+Batch: 2018-2022
+
+Exercise 7: Expression Tree
+•
+
+Input : infix expression, Output: expression tree
+
+•
+
+Use CharStack ADT to convert the infix expression into postfix expression
+
+•
+
+Create TreeStack ADT to push and pop tree nodes (element, left ptr, right ptr)
+
+•
+
+Use TreeStack ADT to convert the postfix expression into expression tree
+
+•
+
+Display the tree using preorder, inorder and postorder traversals.
+
+•
+
+Test for the following expressions
+a. (2+5) * (3-6) / (7*8)
+b. 7 - (((3+2) * (6+1)) / (5+6))
+c. ((3+2) * (2+5))
+
+
