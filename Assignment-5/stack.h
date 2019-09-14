@@ -26,7 +26,7 @@ void push(Stack * top,Data d){
 
 Data pop(Stack * top){
 	Data rval = (*top) -> d;
-a	Node * tmp = *top;
+	Node * tmp = *top;
 	*top = (*top) -> next;
 	free(tmp);
 	return rval;
