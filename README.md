@@ -8,4 +8,5 @@
  - Generating Exression Tree given infix expression and Traversing using inorder,preorder,postorder methods
  - Creating a binary search tree given names and finding grandparents,grandchildren and siblings
  - Creating a dictionary mapping English words to their corresponding Hindi and Tamil meanings using AVL Tree 
+ - Creating a Max Heap using priority queue to store Employee records 
 
