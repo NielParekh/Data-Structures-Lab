@@ -25,7 +25,10 @@ void DFS(Graph g,int size,Vertex start){
 		 continue;	
 		
 		strcpy(adj,tmp.adj);
-		
+
+		if(adj[0] =='-')
+			continue;		
+	
 		for(int i = 0 ; adj[i] ; i++)
 			if(adj[i] == ' ')
 				continue;
@@ -51,18 +54,18 @@ void BFS(Graph g,int size,Vertex start){
 		
 		printf("%c\t",temp.v);
 		g[find(g,size,temp.v)].visited = 1;
+		
 		strcpy(adj,temp.adj);
 		if(strcmp(temp.adj,"-") == 0)
 			continue;
+		
 		for(int i = 0 ; adj[i] ; i++){
 			if(adj[i] == ' ')
 				continue;
 			if( g[find(g,size,adj[i])].visited == 1)
 					continue;	
-			else{
-				//printf("%c\t",adj[i]);
-				enqueue(&front,&rear,g[find(g,size,adj[i])]);
-			}
+			else
+				enqueue(&front,&rear,g[find(g,size,adj[i])]);	
 		}
 	}
 }

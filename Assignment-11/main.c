@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <string.h>
 
-
 #include "Vertex.h"
 #include "Queue.h"
 #include "Stack.h"
@@ -40,6 +39,7 @@ int main(void){
 			start = g1[i];
 	}
 
+	PrintAdjacency(g1,size);
 	
 	printf("BFS OUTPUT:\n");
 	BFS(g1,size,start);

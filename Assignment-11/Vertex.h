@@ -24,3 +24,27 @@ Vertex getVertex(){
 
 	return vertex;
 }
+
+char * spaces(const int size){
+	static char spaces[20]="";
+	for(int i = 0 ; i < size ; i++)
+		spaces[i] = ' ';
+	spaces[size] = 0;
+	return spaces;
+}
+
+void PrintAdjacency(const Graph g,const int size){
+
+	system("clear");
+	
+	printf(" +--------+----------------+\n");
+	printf(" | Vertex | Adjacenct List |\n");
+	printf(" +--------+----------------+\n");
+	
+	for(int i = 0 ; i < size ; i++)
+		printf(" |   %c    | %s%s |\n",
+		g[i].v,g[i].adj,spaces(14-strlen(g[i].adj)));
+	
+	printf(" +--------+----------------+\n");
+	
+}
