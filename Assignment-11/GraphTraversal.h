@@ -7,7 +7,7 @@ int find(Graph g,int size,const char C){
 
 
 void DFS(Graph g,int size,Vertex start){
-	if(strlen(start.adj) == 0)
+	if(strcmp(start.adj,"-") == 0)
 		return;
 
 	Stack s = createEmptyStack();
@@ -19,25 +19,23 @@ void DFS(Graph g,int size,Vertex start){
 		tmp = pop(&s);
 		if(g[find(g,size,tmp.v)].visited == 0){
 			g[find(g,size,tmp.v)].visited = 1;
-			printf("OUTPUT: %c\n",tmp.v);
+			printf("%c\t",tmp.v);
 		}
-		else continue;	
+		else
+		 continue;	
+		
 		strcpy(adj,tmp.adj);
-		printf("ADJ of %c: %s\n",tmp.v,tmp.adj);
+		
 		for(int i = 0 ; adj[i] ; i++)
 			if(adj[i] == ' ')
 				continue;
-			else{
+			else
 				push(&s,g[find(g,size,adj[i])]);
-				printf("Stack: ");
-				displayStack(s);
-			}
-		printf("\n");
 	}
 }
 
 void BFS(Graph g,int size,Vertex start){
-	if(strlen(start.adj) == 0)
+	if(strcmp(start.adj,"-") == 0)
 		return;
 
 	char adj[10];
@@ -54,7 +52,8 @@ void BFS(Graph g,int size,Vertex start){
 		printf("%c\t",temp.v);
 		g[find(g,size,temp.v)].visited = 1;
 		strcpy(adj,temp.adj);
-
+		if(strcmp(temp.adj,"-") == 0)
+			continue;
 		for(int i = 0 ; adj[i] ; i++){
 			if(adj[i] == ' ')
 				continue;
