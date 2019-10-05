@@ -11,4 +11,5 @@
  - Creating a Max Heap using priority queue to store Employee records 
  - Graph Traversal Algorithms :- Breadth first and Depth first
  - Graph Traversal Algorithm :- Dijkstra's Algorithm
+ - Hashing : Separate chainging using different hash functions
 
