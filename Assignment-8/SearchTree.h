@@ -36,6 +36,15 @@ Tree findMinimum(Tree t){
 	return tmp;
 }
 
+Tree findMaximum(Tree t){
+	if(t == 0)
+		return 0;
+	Tree tmp = t;
+	while(tmp -> right)
+		tmp = tmp -> right;
+	return tmp;
+}
+
 Tree delete(Tree t,Data d){
 	if(t == NULL){
 		printf("Not Found!");
