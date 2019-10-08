@@ -1,0 +1,131 @@
+
+1. Administrator
+2. Customer
+3. Exit
+Enter your choice: 2
+
+//New Screen
+
+WELCOME TO HOTEL CALIFORNIA 
+
+1. Check in
+2. Check out
+3. Check availabile rooms
+Enter your choice: 1
+
+//New Screen
+
+The available rooms are: 
+2   3   4   5   6   7   8   9   10  11  
+12  13  14  15  16  17  18  19  20  21  
+22  23  24  25  26  27  28  29  30  31  
+32  33  34  35  36  37  38  39  40  41  
+42  43  44  45  46  47  48  49  50  51  
+52  53  54  55  56  57  58  59  60  61  
+62  63  64  65  66  67  68  69  70  71  
+72  73  74  75  76  77  78  79  80  81  
+82  83  84  85  86  87  88  89  90  91  
+92  93  94  95  96  97  98  99  100 
+
+Enter a rno from the above list: 45
+Enter the Check In date[dd/mm/yyyy]: 8/5/2019
+Enter the Check Out date[dd/mm/yyyy]: 10/5/2019
+Enter your name: Mahesh
+Enter contact number: 9962243082
+Successfully booked room!
+
+Press any key to continue.........
+
+//New Screen
+
+
+1. Administrator
+2. Customer
+3. Exit
+Enter your choice: 1
+Enter the username : admin
+Enter the password: [12345] //invisible
+
+Access Granted
+
+Press any key to continue.........
+
+//New Screen
+
+1. List of available rooms
+2. Bill generator
+3. History of a room
+4. Rooms to vacate today
+5. Date wise History
+6. Logout
+Enter your choice: 3
+
+//New Screen
+
+Enter a room number: 45
+Name           : Mahesh
+Phone Number   : 9962243082
+Rooom Number   : 45
+Check In date  : 8/5/2019
+Check Out date : 10/5/2019
+
+
+Press any key to continue.........
+
+//New Screen
+
+
+1. List of available rooms
+2. Bill generator
+3. History of a room
+4. Rooms to vacate today
+5. Date wise History
+6. Logout
+Enter your choice: 2
+
+//New Screen
+
+Enter the room number to vacate: 45
+Are you sure you want to check out 1/0?: 1
+Name           : Mahesh
+Phone Number   : 9962243082
+Rooom Number   : 45
+Check In date  : 8/5/2019
+Check Out date : 8/5/2019
+
+Successfully Checked out!
+Amount to be paid: 3000.00
+
+Press any key to continue.........
+
+//New screen
+
+1. List of available rooms
+2. Bill generator
+3. History of a room
+4. Rooms to vacate today
+5. Date wise History
+6. Logout
+Enter your choice: 6
+
+
+//New Screen
+
+
+Logged out successfully!
+
+Press any key to continue.........
+
+//New Screen
+
+1. Administrator
+2. Customer
+3. Exit
+Enter your choice: 3
+
+Exiting............................................
+
+//END
+
+
+
