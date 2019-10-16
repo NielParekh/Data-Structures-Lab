@@ -13,3 +13,8 @@
  - Graph Traversal Algorithm :- Dijkstra's Algorithm
  - Hashing : Separate chainging using different hash functions
 
+## Mini Project
+ - Hotel Management using AVLTree, Priority Queue and Binary Files
+ - ~Username: admin~
+ - ~PasswordL 12345~
+
