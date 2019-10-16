@@ -12,7 +12,8 @@ char * spaces(char str[]){
 	for(int i = 0 ; i < 14 ; i++)
 		if(i < strlen(str))
 			word[i] = str[i];
-		word[i] = ' ';
+		else
+			word[i] = ' ';
 	word[14] = 0;
 
 	return word;
