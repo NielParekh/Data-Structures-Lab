@@ -15,6 +15,6 @@
 
 ## Mini Project
  - Hotel Management using AVLTree, Priority Queue and Binary Files
- - ~Username: admin~
- - ~PasswordL 12345~
+ - #Username: admin#
+ - #PasswordL 12345#
 
