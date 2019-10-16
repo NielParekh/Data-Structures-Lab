@@ -1,127 +1,36 @@
 #define RATE 3000.0
 
-typedef struct{
-	unsigned int id;
-	unsigned int visit_no;
-	char name[30];
-	char ph[11];
-	Room r;
-} Customer;
-
 void putCustomer(const Customer C){
 	printf("ID             : %d\n",C.id);
 	printf("Name           : %s\n",C.name);
 	printf("Phone Number   : %s\n",C.ph);
 	printf("Visit Number   : %d\n",C.visit_no);
-	
+
 	if(C.r.rno != 0){
 		printf("\nRoom Number   : %d\n",C.r.rno);
 		putDate("Check In date ",C.r.Check_In);
 		putDate("Check Out date",C.r.Check_Out);
+		printf("\nCUST_ID: %d\n",C.r.cust_id);
 	}
-	
-	printf("\n");
+
+	printf("\n-------------------------------\n\n");
 
 }
 
-void CreateCustomer(Customer * const Cptr){		//Constructor equivalent
+void CreateCustomer(Customer * const Cptr){//Constructor equivalent
 	(*Cptr).name[0] = '\0';
 	(*Cptr).ph[0] = '\0';
 	Cptr -> id = 0;
 	Cptr -> visit_no = 0;
 	CreateRoom( &(Cptr->r) );
 }
+//float CheckOut(){
 
-void CheckIn(){
-	int opt;
-	int cust_id;
-	Customer *Cptr = (Customer*)malloc(sizeof(Customer));
-	CreateCustomer(Cptr);
-	FILE * fp = fopen("Customer.dat","rb");
-	
-	
-	if(!getRoomNo()){
-		printf("No rooms available!!");
-		return;
-	}
-	do{
-		printf("Existing customer? 1/0 ");
-		scanf("%d",&opt);
-		getchar();
-
-		if(opt != 1 && opt != 0)
-			printf("Invalid Input!\n");
-
-	}while(opt != 0 && opt != 1);
-
-	if(opt == 1){
-		printf("Enter the customer ID: ");
-		scanf("%d",&cust_id);
-		getchar();
-
-		fseek(fp,(cust_id - 1)*sizeof(Customer),0);
-		fread(Cptr,1,sizeof(Customer),fp);
-		fclose(fp);
-		putCustomer(*Cptr);
-		do{
-			printf("Confirm details 1/0");
-			scanf("%d",&opt);
-			getchar();
-
-			if(opt != 0 && opt != 1)
-				printf("Invalid Input!\n");
-
-		}while(opt != 0 && opt != 1);
-		Cptr -> r = Book_Room();
-	}	
-	else{
-		fseek(fp,0,2);
-		const int last_id = ftell(fp)/sizeof(Customer);
-		fclose(fp);
-		Cptr -> id = last_id + 1;
-		Cptr -> visit_no = 1;
-		printf("Your unique customer id is: %d\n",Cptr -> id);
-
-		printf("Enter your name: ");
-		scanf("%[^\n]*c",Cptr->name);
-		getchar();
-
-		do{
-			printf("Enter contact number: ");
-			scanf("%s",Cptr->ph);
-			getchar();
-
-			if(strlen(Cptr->ph) != 10)
-				printf("Invalid Contact Number!Try again!");
-
-		}while(strlen(Cptr->ph) != 10);
-		
-		Cptr -> r = Book_Room();
-		fp = fopen("Customer.dat","ab");
-		fwrite(Cptr,1,sizeof(Customer),fp);
-		fclose(fp);
-
-	}
-
-	Cptr -> r.cust_id = Cptr -> id;
-
-	fp = fopen("Rooms.dat","rb+");
-	fseek(fp,((Cptr->r).rno - 1)*sizeof(Room),0);
-	fwrite(&(Cptr->r),1,sizeof(Room),fp);
-	fclose(fp);
-
-	
-	free(Cptr);
-	printf("Successfully booked room!\n");
-
-}
-
-
-float CheckOut(){
-
+float CheckOut(AVLTree t){
 	const Date CurrentDate = getCurrentDate();
-	FILE * fp = fopen("Rooms.dat","rb+");
-	Room *tmp = (Room*)malloc(sizeof(Room));
+	//FILE * fp = fopen("Rooms.dat","rb+");
+	//Room *tmp = (Room*)malloc(sizeof(Room));
+	Room * tmp;
 	Customer *temp = (Customer*)malloc(sizeof(Customer));
 	int rno,opt;
 
@@ -135,14 +44,13 @@ float CheckOut(){
 				printf("Invalid Input!Try again!\n");
 
 		}while(rno<1||rno>MAX_ROOMS);
+        tmp = search(t,rno);
 
-		fseek(fp,(rno-1)*sizeof(Room),0);
-		fread(tmp,1,sizeof(Room),fp);
-
-		if(!tmp -> isOccupied)
+		if( (!tmp -> isOccupied) || (!tmp))
 			printf("Invalid Room Number!Try again!\n");
 
-	}while(!tmp -> isOccupied && !feof(fp));
+	}while(!tmp -> isOccupied);
+
 	const int cust_id = tmp -> cust_id;
 
 	do{
@@ -160,12 +68,8 @@ float CheckOut(){
 
 	CreateRoom(tmp);
 	tmp->rno = rno;
-	fseek(fp,(rno - 1)*sizeof(Room),0);
-	fwrite(tmp,1,sizeof(Room),fp);
-	free(tmp);
-	fclose(fp);
 
-	fp = fopen("Customer.dat","rb+");
+	FILE * fp = fopen("Customer.dat","rb+");
 	fseek(fp,(cust_id-1)*sizeof(Customer),0);
 	fread(temp,1,sizeof(Customer),fp);
 	temp -> visit_no++;
@@ -173,19 +77,18 @@ float CheckOut(){
 	Room r = temp -> r;
 	CreateRoom(&(temp -> r));
 	fseek(fp,(cust_id-1)*sizeof(Customer),0);
-	
+
 	fwrite(temp,1,sizeof(Customer),fp);
 	fclose(fp);
 
 	fp = fopen("RoomHistory.dat","ab");
 	int date_diff1 = date_diff(r.Check_Out,r.Check_In);
 	int date_diff2 = date_diff(CurrentDate,r.Check_In);
-	
+
 	if(date_diff2 < date_diff1)
 		r.Check_Out = CurrentDate;
 
 	fwrite(&r,1,sizeof(Room),fp);
-	
 
 	fclose(fp);
 
@@ -202,6 +105,7 @@ float CheckOut(){
 void Room_History(){
 	int rno;
 	int cust_id;
+
 	do{
 		printf("Enter a room number: ");
 		scanf("%d",&rno);
@@ -214,9 +118,10 @@ void Room_History(){
 
 	FILE *f1 = fopen("RoomHistory.dat","rb"),
 		 *f2 = fopen("Customer.dat","rb");
-	
+
 	Customer *tmp = (Customer*)malloc(sizeof(Customer));
 	Room * r = (Room*)malloc(sizeof(Room));
+
 
 	fread(r,1,sizeof(Room),f1);
 	while(!feof(f1)){
@@ -270,10 +175,4 @@ void Date_History(){
 	fclose(f2);
 	free(r);
 	free(c);
-
 }
-
-
-
-
-

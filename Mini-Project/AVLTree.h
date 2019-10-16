@@ -1,14 +1,4 @@
-typedef  Room Record;
-
-typedef struct avlnode{
-	Record r;
-	struct avlnode * left , * right;
-	short int height;
-}AVLTreeNode;
-
-typedef AVLTreeNode * AVLTree;
-
-static int height(AVLTree t){
+int height(AVLTree t){
 	if(t == NULL)
 		return -1;
 
@@ -19,7 +9,7 @@ int max(int a,int b){
 	return ((a > b)? a : b);
 }
 
-static AVLTree singlerotatewithleft(AVLTree k2){
+AVLTree singlerotatewithleft(AVLTree k2){
 	AVLTree k1;
 	k1 = k2 -> left;
 	k2 -> left = k1 -> right;
@@ -31,25 +21,25 @@ static AVLTree singlerotatewithleft(AVLTree k2){
 	return k1;
 }
 
-static AVLTree singlerotatewithright(AVLTree k2){
+AVLTree singlerotatewithright(AVLTree k2){
 	AVLTree k1;
 	k1 = k2 -> right;
 	k2 -> right = k1 -> left;
 	k1 -> left = k2;
-	
+
 	k2 -> height = max(height(k2 -> left),height(k2 -> right)) + 1;
 	k1 -> height = max(height(k1 -> left),k2 -> height) + 1;
 
 	return k1;
 }
 
-static AVLTree doublerotatewithleft(AVLTree k3){
+AVLTree doublerotatewithleft(AVLTree k3){
 	k3 -> left = singlerotatewithright(k3 -> left);
 
 	return singlerotatewithleft(k3);
 }
 
-static AVLTree doublerotatewithright(AVLTree k3){
+AVLTree doublerotatewithright(AVLTree k3){
 	k3 -> right = singlerotatewithleft(k3 -> right);
 
 	return singlerotatewithright(k3);
@@ -66,13 +56,13 @@ AVLTree insert(Record r,AVLTree t){
 	else if(r.rno < t -> r.rno){
 		t -> left = insert(r,t -> left);
 		if(height(t -> left) - height(t -> right) == 2)
-			if(strcmp(r.rno,t -> left -> r.rno) < 0){
+			if(r.rno < t -> left -> r.rno){
 				printf("\nSingle rotate performed!\n");
 				t = singlerotatewithleft(t);
 			}
 			else{
 				printf("\nDouble rotate performed!\n");
-				t = doublerotatewithleft(t);			
+				t = doublerotatewithleft(t);
 			}
 	}
 
@@ -93,25 +83,25 @@ AVLTree insert(Record r,AVLTree t){
 	return t;
 }
 
-Record search(AVLTree t,int rno){
+Record* search(AVLTree t,int rno){
 	if(t == NULL){
-		Room r;
+		static Room r;
 		CreateRoom(&r);
 		printf("Not found!\n");
-		return r;
+		return &r;
 	}
 
 	if(rno < t -> r.rno)
-		return search(t -> left,word);
+		return search(t -> left,rno);
 	else if(rno > t -> r.rno)
-		return search(t -> right,word);
+		return search(t -> right,rno);
 	else
-		return t -> r;
+		return &(t -> r);
 }
 
 AVLTree readFile(){
 	FILE * f = fopen("Rooms.dat","rb");
-	AVLTree t = NULL;
+	static AVLTree t = NULL;
 
 	Room tmp;
 	fread(&tmp,1,sizeof(Room),f);
@@ -128,7 +118,7 @@ void inorder(AVLTree t){
 	if(t == NULL)
 		return;
 	inorder(t -> left);
-	printf("%s\t",t -> r.word);
+	printf("%d\t",t -> r.rno);
 	inorder(t -> right);
 }
 

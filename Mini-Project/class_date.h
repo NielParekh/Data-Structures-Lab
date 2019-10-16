@@ -1,21 +1,16 @@
-
-typedef struct{
-	int m,d,y;
-} Date;
-
 void CreateDate(Date * const Dptr){			//Constructor equivalent
-	Dptr -> m = Dptr -> d = Dptr -> year = -1;	
+	Dptr -> m = Dptr -> d = Dptr -> y = -1;	
 }
 
-int datecmp(const Date d1,const Date d2){			//Returns 1 if d1 is after or same as d2 else returns false
+int datecmp(const Date d1,const Date d2){			//Returns 1 if d1 is after 0 if same -1 if before
 	if(d2.y > d1.y || (d2.y == d1.y && d2.m > d1.m) || (d2.y == d1.y && d2.m == d1.m && d2.d > d1.d))
-		return 0;
-	
-	return 1;
+		return -1;
+	if(d2.y < d1.y || (d2.y == d1.y && d2.m < d1.m) || (d2.y == d1.y && d2.m == d1.m && d2.d < d1.d))
+		return 1;
+	return 0;
 
 }
 
-//Verifies and accepts a date
 void getDate(const char * const str,Date * const Dptr,const Date Current_Date){ 
 	
 	int date,month,year;
@@ -35,7 +30,7 @@ void getDate(const char * const str,Date * const Dptr,const Date Current_Date){
 		 	( (month==4||month==6||month==7||month==9||month==11) && date>30 ) ||
 		 	( (year%4!=0) && (month==2) && date>28 ) ||
 		 	( (year%4==0) && (month==2) && date>29 )  ||
-		 	datecmp(tmp,Current_Date) == 0)
+		 	datecmp(tmp,Current_Date) == -1)
 
  			printf("Invalid Date!Please enter again!\n\n");
 
@@ -43,7 +38,7 @@ void getDate(const char * const str,Date * const Dptr,const Date Current_Date){
 		 	( (month==4||month==6||month==7||month==9||month==11) && date>30 ) ||
 		 	( (year%4!=0) && (month==2) && date>28 ) ||
 		 	( (year%4==0) && (month==2) && date>29 )  ||
-		 	datecmp(tmp,Current_Date) == 0 );
+		 	datecmp(tmp,Current_Date) == -1 );
 
  	Dptr -> d = date;
  	Dptr -> m = month;

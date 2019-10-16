@@ -1,17 +1,14 @@
 #define MAX_ROOMS 3
 
-typedef struct{
-	int rno;
-	Date Check_In , Check_Out;
-	unsigned isOccupied : 1;
-	unsigned int cust_id;
-} Room;
+extern Record* search(AVLTree t,int rno);
+
 
 void CreateRoom(Room * Rptr){
 	Rptr->rno = 0;
 	CreateDate(&(Rptr->Check_In) );
 	CreateDate(&(Rptr->Check_Out) );
 	Rptr->isOccupied = 0;
+	Rptr->cust_id = 0
 }
 
 
@@ -32,50 +29,41 @@ void DisplayAvailableRooms(int * arr){
 }
 
 
-
-int* const getRoomNo(){
-	
+int * const getRoomNo(AVLTree t){
 	static int arr[MAX_ROOMS];
 	for(int i = 0 ; i < MAX_ROOMS ; i++)
 		arr[i] = 0;
-	
-	FILE * fp = fopen("Rooms.dat","rb");
-	
-	int c = -1;
-	Room tmp;
-	fread(&tmp,1,sizeof(Room),fp);
-	while(!feof(fp) && c < MAX_ROOMS){
-		if( !tmp.isOccupied)
-			arr[++c] = tmp.rno;
-		
-		fread(&tmp,1,sizeof(Room),fp);
-	}
-		
-		
-	fclose(fp);
-	
+    int c = -1;
+
+
+    Room * tmp = 0;
+    for(int i = 1 ; i <= MAX_ROOMS ; i++){
+        tmp = search(t,i);
+        if(tmp)                       //Room exists
+            if(tmp -> isOccupied == 0) //Room available
+                arr[++c] = tmp -> rno;
+    }
 	if(c != -1) //Some rooms available
 		return arr;
 return 0;
 }
 
-Room Book_Room(){
-	Room tmp;
-	CreateRoom(&tmp);
+Room* Book_Room(AVLTree t){
+	Room * tmp = 0;
 
 	const Date Current_Date = getCurrentDate();
-	
+
 	int rno , found = 0;
 
-	int * available_rno = getRoomNo();
-	
+	int * available_rno = getRoomNo(t);
+
 	if(available_rno == 0)
 		return tmp;
-	
+
 	DisplayAvailableRooms(available_rno);
 
 	printf("\n");
-	
+
 	do{
 		printf("Enter a rno from the above list: ");
 		scanf("%d",&rno);
@@ -90,22 +78,23 @@ Room Book_Room(){
 			printf("Enter another room number!\n");
 
 	}while(!found);
-			
-	tmp.rno = rno;
-	tmp.isOccupied = 1;
 
-	
+	tmp = search(t,rno);
+
+	tmp -> isOccupied = 1;
+
+
 	do{
-		getDate("Check In" , &(tmp.Check_In)  , Current_Date);
-		getDate("Check Out", &(tmp.Check_Out) , Current_Date);
+		getDate("Check In" , &(tmp -> Check_In)  , Current_Date);
+		getDate("Check Out", &(tmp -> Check_Out) , Current_Date);
 
-		if(date_diff( (tmp.Check_In),(tmp.Check_Out) ) > 0 ||
-		   date_diff( (tmp.Check_In),Current_Date ) != 0)
+		if(datecmp( (tmp -> Check_In),(tmp -> Check_Out) )  == 1 ||
+		   datecmp( (tmp -> Check_In),Current_Date ) == -1)
 			printf("Invalid Check In Check Out Dates!Try again!\n\n");
 
-	}while(date_diff( (tmp.Check_In),(tmp.Check_Out) ) > 0 ||
-		   date_diff( (tmp.Check_In),Current_Date ) != 0);
-	
+	}while(datecmp( (tmp -> Check_In),(tmp -> Check_Out) ) == 1 ||
+		   datecmp( (tmp -> Check_In),Current_Date ) == -1);
+
 	return tmp;
 }
 
